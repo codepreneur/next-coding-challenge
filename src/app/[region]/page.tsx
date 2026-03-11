@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { fetchProducts } from '@/lib/api';
 import { getLocalizedProduct } from '@/lib/region';
-import { Region } from '@/types/product';
+import { Region, Product } from '@/types/product';
 import ProductGrid from '@/components/ProductGrid';
 import MoreProducts from '@/components/MoreProducts';
 import styles from './page.module.css';
@@ -12,7 +12,14 @@ export default async function RegionPage({
   params: { region: string };
 }) {
   const region = params.region as Region;
-  const products = await fetchProducts();
+
+  let products: Product[] = [];
+  try {
+    products = await fetchProducts();
+  } catch {
+    // fallback to empty array
+  }
+
   const localized = products.map(p => getLocalizedProduct(p, region));
   const existingIds = products.map(p => p.id);
 
