@@ -5,6 +5,7 @@ import { LocalizedProduct } from '@/types/product';
 import { Region } from '@/types/product';
 import styles from '@/app/[region]/page.module.css';
 import Link from 'next/link';
+import ProductCard from './ProductCard';
 
 interface ProductGridProps {
   products: LocalizedProduct[];
@@ -27,22 +28,11 @@ export default function ProductGrid({ products, region }: ProductGridProps) {
 
       <div className={styles.grid}>
         {products.map(product => (
-          <button
+          <ProductCard
             key={product.id}
-            className={styles.card}
-            onClick={() => addToCart(product.id, product.name, product.price)}
-            aria-label="Add to basket"
-            disabled={product.stock === 0}
-          >
-            <h2>
-              {product.name} <span>-&gt;</span>
-            </h2>
-            <p>
-              {product.currencySymbol}
-              {product.price.toFixed(2)}
-              {product.stock === 0 && ' (Out of stock)'}
-            </p>
-          </button>
+            product={product}
+            onAddToCart={() => addToCart(product.id, product.name, product.price, product.currencySymbol)}
+          />
         ))}
       </div>
     </>
