@@ -7,7 +7,7 @@ interface CartContextType {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
-  addToCart: (productId: number, name: string, price: number) => void;
+  addToCart: (productId: number, name: string, price: number, currencySymbol: string) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -15,7 +15,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addToCart = (productId: number, name: string, price: number) => {
+  const addToCart = (productId: number, name: string, price: number, currencySymbol: string) => {
     setItems(prev => {
       const existing = prev.find(item => item.productId === productId);
       if (existing) {
@@ -25,7 +25,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-      return [...prev, { productId, name, price, quantity: 1 }];
+      return [...prev, { productId, name, price, currencySymbol, quantity: 1 }];
     });
   };
 

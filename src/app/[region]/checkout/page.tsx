@@ -10,6 +10,8 @@ export default function CheckoutPage() {
   const params = useParams();
   const region = params.region as string;
 
+  const currencySymbol = items.length > 0 ? items[0].currencySymbol : '';
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -38,9 +40,9 @@ export default function CheckoutPage() {
               {items.map(item => (
                 <tr key={item.productId}>
                   <td>{item.name}</td>
-                  <td>{item.price.toFixed(2)}</td>
+                  <td>{item.currencySymbol}{item.price.toFixed(2)}</td>
                   <td>{item.quantity}</td>
-                  <td>{(item.price * item.quantity).toFixed(2)}</td>
+                  <td>{item.currencySymbol}{(item.price * item.quantity).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -48,7 +50,7 @@ export default function CheckoutPage() {
           <div className={styles.checkoutSummary}>
             <p>
               Total: {totalItems} {totalItems === 1 ? 'item' : 'items'} &mdash;{' '}
-              {totalPrice.toFixed(2)}
+              {currencySymbol}{totalPrice.toFixed(2)}
             </p>
           </div>
         </div>

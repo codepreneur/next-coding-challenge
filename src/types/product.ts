@@ -19,5 +19,6 @@ export interface CartItem {
   productId: number;
   name: string;
   price: number;
+  currencySymbol: string;
   quantity: number;
 }
